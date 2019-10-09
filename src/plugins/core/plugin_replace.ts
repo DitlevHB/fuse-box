@@ -5,7 +5,7 @@ export type IPluginReplaceProps = { [key: string]: any };
 export function pluginReplace(a?: IPluginReplaceProps | string | RegExp, b?: IPluginReplaceProps) {
   const [opts, matcher] = parsePluginOptions<IPluginReplaceProps>(a, b, {});
   return (ctx: Context) => {
-    ctx.ict.on('assemble_fast_analysis', props => {
+    ctx.ict.on('assemble_before_transpile', props => {
       // filter out options
 
       if (matcher && !matcher.test(props.module.props.absPath)) {

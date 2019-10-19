@@ -1,9 +1,16 @@
 import * as React from 'react';
 import { Component } from 'react';
 
+import { Blob } from "react-blob";
+
 import * as ReactDOM from 'react-dom';
+import Rodal from "rodal";
+
+import { useSprings, animated, interpolate } from "react-spring"
+
+import "animate.css/animate.min.css";
 import { Other } from './Other';
-import './index.scss';
+import './index.css';
 
 class App extends Component {
   render() {
@@ -16,6 +23,7 @@ class App extends Component {
       <div>
         222
         <Other></Other>
+        <Blob />
       </div>
     );
   }

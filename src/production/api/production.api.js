@@ -1,4 +1,4 @@
-(function() {
+(function () {
   /* @if allowSyntheticDefaultImports */
   function syntheticDefaultExportPolyfill(input) {
     if (input == null || ['function', 'object', 'array'].indexOf(typeof input) === -1) {
@@ -52,6 +52,7 @@
 
   /* @if splitConfig */
   var splitConfig = $splitConfig$;
+  // debugger;
   function loadLocalScript(id, path) {
     return new Promise((resolve, reject) => {
       /* @if browser */
@@ -63,7 +64,7 @@
         script.id = scriptId;
         document.head.appendChild(script);
       }
-      script.onload = function() {
+      script.onload = function () {
         if ($fsx.f[id]) {
           return resolve($fsx.r(id));
         } else reject('Resolve error of module ' + id);
@@ -81,7 +82,7 @@
   }
   /* @end */
   $fsx.m = {};
-  $fsx.r = function(id) {
+  $fsx.r = function (id) {
     var cached = $fsx.m[id];
 
     // resolve if in cache

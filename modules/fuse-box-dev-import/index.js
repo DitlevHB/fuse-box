@@ -1,5 +1,5 @@
 function loadRemoteScript(url) {
-  return Promise.resolve().then(function() {
+  return Promise.resolve().then(function () {
     if (FuseBox.isBrowser) {
       var d = document;
       var head = d.getElementsByTagName('head')[0];
@@ -23,7 +23,7 @@ function loadRemoteScript(url) {
 function request(url, cb) {
   if (FuseBox.isBrowser) {
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
       var err;
       if (this.readyState == 4) {
         if (this.status !== 200) {
@@ -46,8 +46,8 @@ function evaluateModule(id, code) {
   return moduleObject.exports;
 }
 
-module.exports = function(id) {
-  return new Promise(function(resolve, reject) {
+module.exports = function (id) {
+  return new Promise(function (resolve, reject) {
     if (FuseBox.exists(id)) {
       return resolve(FuseBox.import(id));
     }
@@ -65,14 +65,14 @@ module.exports = function(id) {
       }
     }
     var splitConfig = FuseBox.global('__fsbx__bundles__');
-
+    // debugger;
     if (splitConfig && splitConfig.bundles) {
       if (splitConfig.bundles[id]) {
         return resolve(FuseBox.import('~/' + splitConfig.bundles[id].main));
       }
     }
 
-    request(id, function(error, contents, type) {
+    request(id, function (error, contents, type) {
       if (error) {
         return reject(error);
       }

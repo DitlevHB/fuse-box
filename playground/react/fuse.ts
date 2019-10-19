@@ -31,7 +31,7 @@ class Context {
     });
   }
 }
-const { task, rm, exec } = sparky<Context>(Context);
+const { task, rm } = sparky<Context>(Context);
 
 task('default', async ctx => {
   ctx.runServer = true;

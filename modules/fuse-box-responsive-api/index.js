@@ -1,5 +1,5 @@
 /* @if !isContained */
-(function() {
+(function () {
 	/* @end */
 
 	/* @if promisePolyfill */
@@ -109,7 +109,7 @@
 
 	/* @if customStatementResolve  */
 	$fsx.z = $customMappings$;
-	$fsx.p = function(id) {
+	$fsx.p = function (id) {
 		var id;
 		if ((id = $fsx.z[id])) {
 			return $fsx.r(id);
@@ -123,7 +123,7 @@
 
 	function aj(url, cb) {
 		var request = new XMLHttpRequest();
-		request.onreadystatechange = function() {
+		request.onreadystatechange = function () {
 			if (this.readyState == 4) {
 				var err;
 				if (this.status !== 200) {
@@ -138,54 +138,54 @@
 	}
 	/* @end */
 
-/* @if loadRemoteScript  */
-function loadRemoteScript(url, isCSS) {
-	/* @if server */
-	return Promise.resolve();
-	/* @end */
-
-	/* @if browser || universal */
-	return new Promise(function(resolve, reject) {
-		/* @if universal */
-		if (!isBrowser) {
-			return resolve();
-		}
+	/* @if loadRemoteScript  */
+	function loadRemoteScript(url, isCSS) {
+		/* @if server */
+		return Promise.resolve();
 		/* @end */
 
-		var d = document;
-		var head = d.getElementsByTagName("head")[0];
-		var target;
-		/* @if cssLoader */
-		if (isCSS) {
-			target = d.createElement("link");
-			target.rel = "stylesheet";
-			target.type = "text/css";
-			target.onload = resolve;
-			target.onerror = reject;
-			target.href = url;
-		} else {
+		/* @if browser || universal */
+		return new Promise(function (resolve, reject) {
+			/* @if universal */
+			if (!isBrowser) {
+				return resolve();
+			}
 			/* @end */
 
-			target = d.createElement("script");
-			target.type = "text/javascript";
-			target.onload = resolve;
-			target.onerror = reject;
-			target.async = true; 
-			target.src = url;
-
+			var d = document;
+			var head = d.getElementsByTagName("head")[0];
+			var target;
 			/* @if cssLoader */
-		}
+			if (isCSS) {
+				target = d.createElement("link");
+				target.rel = "stylesheet";
+				target.type = "text/css";
+				target.onload = resolve;
+				target.onerror = reject;
+				target.href = url;
+			} else {
+				/* @end */
+
+				target = d.createElement("script");
+				target.type = "text/javascript";
+				target.onload = resolve;
+				target.onerror = reject;
+				target.async = true;
+				target.src = url;
+
+				/* @if cssLoader */
+			}
+			/* @end */
+			head.appendChild(target)
+		});
 		/* @end */
-		head.appendChild(target)
-	});
+	}
 	/* @end */
-}
-/* @end */
 
 	/* @if codeSplitting */
 
 	var bMapping = $bundleMapping$;
-
+	console.log("Hello from codesplitting", bMapping)
 	/* @if runtimeBundleMapping */
 	var runtimeVarName = $runtimeBundleMappingVariableName$;
 	/* @if server */
@@ -193,7 +193,7 @@ function loadRemoteScript(url, isCSS) {
 	bMapping = Object.assign(bMapping, global[runtimeVarName]);
 	/* @end */
 	/* @if browser */
-
+	console.log("Hello browser!")
 	bMapping = Object.assign(bMapping, window[runtimeVarName]);
 	/* @end */
 	/* @if universal */
@@ -226,7 +226,7 @@ function loadRemoteScript(url, isCSS) {
 	/* @if extendServerImport */
 	function extendServerImport(url, cb) {
 		if (/^http(s)?\:/.test(url)) {
-			return require("request")(url, function(error, response, body) {
+			return require("request")(url, function (error, response, body) {
 				if (error) {
 					return cb(error);
 				}
@@ -236,7 +236,7 @@ function loadRemoteScript(url, isCSS) {
 		if (/\.(js|json)$/.test(url)) {
 			return cb(null, require(url));
 		} else {
-			return require("fs").readFile(require("path").join(__dirname, url), function(err, result) {
+			return require("fs").readFile(require("path").join(__dirname, url), function (err, result) {
 				if (err) {
 					cb(err);
 				} else {
@@ -291,7 +291,7 @@ function loadRemoteScript(url, isCSS) {
 	}
 
 	function loadScript(path, data, cache, id, resolve, reject) {
-		req(path + data[0], function(err, result) {
+		req(path + data[0], function (err, result) {
 			/* @if browser */
 			if (!err) {
 				new Function(result)();
@@ -313,17 +313,17 @@ function loadRemoteScript(url, isCSS) {
 	}
 
 	var $cache = {};
-	$fsx.l = function(id) {
-		return new Promise(function(resolve, reject) {
+	$fsx.l = function (id) {
+		return new Promise(function (resolve, reject) {
 			if ($cache[id]) {
 				return resolve($cache[id]);
 			}
 			/* @if codeSplitting */
 			if (bMapping.i && bMapping.i[id]) {
 				var data = bMapping.i[id];
-				if(typeof data === "number"){
+				if (typeof data === "number") {
 					return resolve($fsx.r(data))
-        }
+				}
 				/* @if universal */
 				var path = isBrowser ? bMapping.c.b : bMapping.c.s;
 				/* @end */
@@ -358,7 +358,7 @@ function loadRemoteScript(url, isCSS) {
 					return loadRemoteScript(id, isCSS);
 				}
 				/* @end */
-				req(id, function(err, result, ctype) {
+				req(id, function (err, result, ctype) {
 					if (!err) {
 						/* @if browser */
 						var res = ($cache[id] = evaluateModule(id, result, ctype));
@@ -405,7 +405,7 @@ function loadRemoteScript(url, isCSS) {
 	$fsx.m = {};
 
 	/* @if serverRequire */
-	$fsx.s = function(id) {
+	$fsx.s = function (id) {
 		var result = $fsx.r(id);
 		if (result === undefined) {
 			/* @if server */
@@ -430,7 +430,7 @@ function loadRemoteScript(url, isCSS) {
 
 	/* @end */
 
-	$fsx.r = function(id) {
+	$fsx.r = function (id) {
 		var cached = $fsx.m[id];
 
 		// resolve if in cache

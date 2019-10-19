@@ -1,5 +1,7 @@
 export interface ICodeSplittingConfig {
   scriptRoot?: string;
+  scriptEnd?: string;
+  stripExtension?: boolean;
 
   /**
    * limit the filename to the last portion of the input path if total length exceeded.

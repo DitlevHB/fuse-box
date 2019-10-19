@@ -90,6 +90,9 @@ export async function finalStage(props: IProductionFlow) {
 
   if (productionContext.dynamicLinks.length) {
     let scriptRoot = props.ctx.config.codeSplitting.scriptRoot;
+    let scriptEnd = props.ctx.config.codeSplitting.scriptEnd;
+    let stripExtension = props.ctx.config.codeSplitting.stripExtension;
+
     if (/[a-z0-9_]$/i.test(scriptRoot)) {
       scriptRoot += '/';
     }
@@ -97,12 +100,27 @@ export async function finalStage(props: IProductionFlow) {
     splitConfig = {
       entries: {},
       scriptRoot: scriptRoot,
+      scriptEnd: scriptEnd,
+      stripExtension: stripExtension
     };
     // dynamic links contain ESLink that represent a dynamic import (import())
     // each link has dynamicImportTarget which is in fact an entry to the split bundle
     productionContext.dynamicLinks.forEach(l => {
       if (l.dynamicImportTarget && l.dynamicImportTarget.splitBundle) {
-        splitConfig.entries[l.dynamicImportTarget.getId()] = l.dynamicImportTarget.splitBundle.getFileName();
+        let local = false;
+        if (local) {
+          splitConfig.entries[l.dynamicImportTarget.getId()] = l.dynamicImportTarget.splitBundle.getFileName();
+        }
+        else {
+          let filename = l.dynamicImportTarget.splitBundle.getFileName();
+
+          if (splitConfig.stripExtension) filename = filename.replace(".js", "");
+          if (splitConfig.scriptEnd) filename = filename + scriptEnd;
+
+          splitConfig.entries[l.dynamicImportTarget.getId()] = filename;
+        }
+
+
       }
     });
     apiVariables.splitConfig = JSON.stringify(splitConfig);
